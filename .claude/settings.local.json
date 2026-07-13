@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(npm *)",
+      "PowerShell(New-Item *)",
+      "PowerShell(node -p \"require\\('./package.json'\\).dependencies\")",
+      "PowerShell(winget install --id GitHub.cli -e --accept-source-agreements --accept-package-agreements)",
+      "PowerShell(gh auth status)",
+      "PowerShell($env:Path = [System.Environment]::GetEnvironmentVariable\\(\"Path\", \"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"Path\", \"User\"\\); gh auth status)",
+      "PowerShell(git init)",
+      "PowerShell(git add -A)"
+    ]
+  }
+}
