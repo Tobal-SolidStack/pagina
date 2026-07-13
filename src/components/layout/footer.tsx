@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Code2 } from "lucide-react";
+import { Logo } from "@/components/icons/logo";
 import { InstagramIcon, FacebookIcon, LinkedinIcon } from "@/components/icons/social-icons";
 import { navLinks, siteConfig } from "@/lib/site-config";
 
@@ -13,14 +13,12 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-neutral-200 bg-neutral-50 dark:border-white/10 dark:bg-neutral-900/40">
+    <footer className="border-t border-neutral-200 bg-neutral-50 dark:border-white/10 dark:bg-neutral-900/40" role="contentinfo">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <Link href="#inicio" className="flex items-center gap-2 font-bold text-lg text-neutral-900 dark:text-white">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl brand-gradient text-white">
-                <Code2 className="h-5 w-5" />
-              </span>
+              <Logo className="h-9 w-9" />
               {siteConfig.name}
             </Link>
             <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">

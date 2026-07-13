@@ -7,7 +7,7 @@ import { faqItems } from "@/lib/data";
 
 export function Faq() {
   return (
-    <section id="faq" className="py-24 sm:py-32">
+    <section id="faq" aria-label="Preguntas frecuentes sobre diseño web" className="py-24 sm:py-32">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Preguntas Frecuentes"

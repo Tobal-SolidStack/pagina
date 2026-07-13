@@ -67,7 +67,7 @@ export const plans: Plan[] = [
   {
     id: "intermedio",
     name: "Plan Intermedio",
-    price: "$100.000",
+    price: "$120.000",
     description: "La opción preferida por negocios que quieren una imagen más completa.",
     featured: true,
     badge: "MÁS VENDIDO",
@@ -82,7 +82,7 @@ export const plans: Plan[] = [
   {
     id: "pro",
     name: "Plan Pro",
-    price: "$125.000",
+    price: "$150.000",
     description: "Solución completa para empresas que buscan máximo rendimiento y alcance.",
     features: [
       "Todo lo del Plan Intermedio",

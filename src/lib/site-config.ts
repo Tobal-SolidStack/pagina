@@ -1,13 +1,13 @@
 export const siteConfig = {
-  name: "WebCraft",
+  name: "SolidStack",
   tagline: "Agencia de desarrollo web",
-  url: "https://www.webcraft.cl",
+  url: "https://www.solidstack.cl",
   description:
-    "Creamos páginas web modernas, rápidas y profesionales para negocios y emprendedores en Chile, desde $80.000. Diseño, SEO y soporte incluidos.",
-  whatsappNumber: "56912345678",
+    "Diseño y creación de páginas web profesionales para negocios y emprendedores en Chile desde $80.000. Sitios modernos, rápidos y responsive con SEO, WhatsApp y soporte incluidos.",
+  whatsappNumber: "56985193115",
   whatsappMessage: "Hola! Quiero cotizar una página web para mi negocio.",
-  email: "contacto@webcraft.cl",
-  phoneDisplay: "+56 9 1234 5678",
+  email: "contacto@solidstack.cl",
+  phoneDisplay: "+56 9 8519 3115",
   location: "Santiago, Chile",
   schedule: "Lunes a Viernes · 09:00 - 19:00",
   social: {

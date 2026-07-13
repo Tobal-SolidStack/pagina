@@ -68,14 +68,14 @@ export function Hero() {
             className="text-4xl font-extrabold tracking-tight text-neutral-900 sm:text-5xl lg:text-6xl dark:text-white"
           >
             Creamos la página web que{" "}
-            <span className="text-gradient">tu negocio necesita</span>.
+            <span className="text-gradient">tu negocio necesita</span>
           </motion.h1>
 
           <motion.p
             variants={item}
             className="mt-6 max-w-xl text-lg text-neutral-600 dark:text-neutral-400"
           >
-            Sitios web modernos, rápidos y profesionales desde solo{" "}
+            Diseño y desarrollo de sitios web modernos, rápidos y profesionales para emprendedores y empresas en Chile, desde solo{" "}
             <span className="font-semibold text-neutral-900 dark:text-white">$80.000</span>.
           </motion.p>
 

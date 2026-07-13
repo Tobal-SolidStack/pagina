@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 
 export function Plans() {
   return (
-    <section id="planes" className="py-24 sm:py-32">
+    <section id="planes" aria-label="Planes y precios de diseño web" className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Planes"

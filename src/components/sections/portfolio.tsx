@@ -9,7 +9,7 @@ import { portfolioItems } from "@/lib/data";
 
 export function Portfolio() {
   return (
-    <section id="portafolio" className="py-24 sm:py-32">
+    <section id="portafolio" aria-label="Portafolio de proyectos web realizados" className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Portafolio"

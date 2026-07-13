@@ -7,7 +7,7 @@ import { stats } from "@/lib/data";
 
 export function Stats() {
   return (
-    <section className="relative overflow-hidden py-24 sm:py-32">
+    <section id="resultados" className="relative overflow-hidden py-24 sm:py-32">
       <div className="absolute inset-0 -z-10 brand-gradient opacity-95" />
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute -top-16 left-10 h-72 w-72 rounded-full bg-white/10 blur-3xl" />

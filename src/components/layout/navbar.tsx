@@ -3,7 +3,8 @@
 import * as React from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X, Code2 } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { Logo } from "@/components/icons/logo";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { navLinks, whatsappHref, siteConfig } from "@/lib/site-config";
@@ -36,11 +37,9 @@ export function Navbar() {
           : "bg-transparent"
       )}
     >
-      <nav className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        <Link href="#inicio" className="flex items-center gap-2 font-bold text-lg text-neutral-900 dark:text-white">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl brand-gradient text-white">
-            <Code2 className="h-5 w-5" />
-          </span>
+      <nav aria-label="Navegación principal" className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+        <Link href="#inicio" className="flex items-center gap-2 font-bold text-lg text-neutral-900 dark:text-white" aria-label={`${siteConfig.name} - Inicio`}>
+          <Logo className="h-9 w-9" />
           {siteConfig.name}
         </Link>
 

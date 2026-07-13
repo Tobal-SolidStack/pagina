@@ -17,7 +17,7 @@ const icons: Record<Benefit["icon"], LucideIcon> = {
 
 export function Benefits() {
   return (
-    <section id="beneficios" className="bg-neutral-50 py-24 dark:bg-neutral-900/40 sm:py-32">
+    <section id="beneficios" aria-label="Beneficios de nuestro servicio de diseño web" className="bg-neutral-50 py-24 dark:bg-neutral-900/40 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Beneficios"

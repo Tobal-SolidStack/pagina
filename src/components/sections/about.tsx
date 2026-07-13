@@ -13,7 +13,7 @@ const highlights = [
 
 export function About() {
   return (
-    <section id="nosotros" className="bg-neutral-50 py-24 dark:bg-neutral-900/40 sm:py-32">
+    <section id="nosotros" aria-label="Sobre nosotros - Equipo de desarrollo web" className="bg-neutral-50 py-24 dark:bg-neutral-900/40 sm:py-32">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-14 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
         <Reveal effect="slide-right">
           <div className="relative mx-auto w-full max-w-md">
