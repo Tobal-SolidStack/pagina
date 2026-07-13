@@ -50,7 +50,7 @@ export function Plans() {
                   <span className="text-4xl font-extrabold text-neutral-900 dark:text-white">
                     {plan.price}
                   </span>
-                  <span className="text-sm text-neutral-500 dark:text-neutral-400">/ pago único</span>
+                  <span className="text-sm text-neutral-500 dark:text-neutral-400">+ IVA / pago único</span>
                 </div>
 
                 <ul className="mt-8 flex-1 space-y-3">

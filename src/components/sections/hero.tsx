@@ -76,7 +76,7 @@ export function Hero() {
             className="mt-6 max-w-xl text-lg text-neutral-600 dark:text-neutral-400"
           >
             Diseño y desarrollo de sitios web modernos, rápidos y profesionales para emprendedores y empresas en Chile, desde solo{" "}
-            <span className="font-semibold text-neutral-900 dark:text-white">$80.000</span>.
+            <span className="font-semibold text-neutral-900 dark:text-white">$79.990 + IVA</span>.
           </motion.p>
 
           <motion.div variants={item} className="mt-10 flex flex-col gap-4 sm:flex-row">

@@ -53,7 +53,7 @@ export const plans: Plan[] = [
   {
     id: "basico",
     name: "Plan Básico",
-    price: "$80.000",
+    price: "$79.990",
     description: "Ideal para emprendedores que están comenzando su presencia online.",
     features: [
       "Diseño Profesional",
@@ -67,7 +67,7 @@ export const plans: Plan[] = [
   {
     id: "intermedio",
     name: "Plan Intermedio",
-    price: "$120.000",
+    price: "$119.990",
     description: "La opción preferida por negocios que quieren una imagen más completa.",
     featured: true,
     badge: "MÁS VENDIDO",
@@ -82,7 +82,7 @@ export const plans: Plan[] = [
   {
     id: "pro",
     name: "Plan Pro",
-    price: "$150.000",
+    price: "$149.990",
     description: "Solución completa para empresas que buscan máximo rendimiento y alcance.",
     features: [
       "Todo lo del Plan Intermedio",
