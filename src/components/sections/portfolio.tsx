@@ -27,8 +27,8 @@ export function Portfolio() {
                 transition={{ type: "spring", stiffness: 280, damping: 22 }}
                 className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm dark:border-white/10 dark:bg-neutral-900"
               >
-                {/* Área del logo */}
-                <div className="relative flex h-48 items-center justify-center bg-neutral-50 p-10 dark:bg-neutral-800">
+                {/* Fondo siempre blanco con style inline para que no lo sobreescriba el tema dark */}
+                <div className="relative flex h-48 items-center justify-center p-10" style={{ backgroundColor: "#ffffff" }}>
                   <img
                     src={project.image}
                     alt={`Logo de ${project.name}`}
