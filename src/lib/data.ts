@@ -150,15 +150,41 @@ export type PortfolioItem = {
   name: string;
   category: string;
   image: string;
+  url: string;
 };
 
+const thumbUrl = (site: string) =>
+  `https://image.thum.io/get/width/800/crop/600/${site}`;
+
 export const portfolioItems: PortfolioItem[] = [
-  { id: "p1", name: "Café Aroma", category: "Cafetería", image: "/portfolio/project-1.svg" },
-  { id: "p2", name: "Estudio Lumen", category: "Fotografía", image: "/portfolio/project-2.svg" },
-  { id: "p3", name: "FitZone", category: "Gimnasio", image: "/portfolio/project-3.svg" },
-  { id: "p4", name: "Dental Sonrisa", category: "Salud", image: "/portfolio/project-4.svg" },
-  { id: "p5", name: "Ferretería Central", category: "Retail", image: "/portfolio/project-5.svg" },
-  { id: "p6", name: "Bufete Legal Andes", category: "Servicios Legales", image: "/portfolio/project-6.svg" },
+  {
+    id: "p1",
+    name: "Saga Media",
+    category: "Sello Urbano / Música",
+    image: thumbUrl("https://sagamedia.net/"),
+    url: "https://sagamedia.net/",
+  },
+  {
+    id: "p2",
+    name: "Desintegra",
+    category: "Desarrollo de Software",
+    image: thumbUrl("https://desintegra.com/"),
+    url: "https://desintegra.com/",
+  },
+  {
+    id: "p3",
+    name: "Adcon Chile",
+    category: "Administración de Condominios",
+    image: thumbUrl("https://adconchile.cl/"),
+    url: "https://adconchile.cl/",
+  },
+  {
+    id: "p4",
+    name: "KM Eventos",
+    category: "Eventos / Producción Audiovisual",
+    image: thumbUrl("https://eventoskm.com/"),
+    url: "https://eventoskm.com/",
+  },
 ];
 
 export type Testimonial = {
