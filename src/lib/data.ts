@@ -153,36 +153,33 @@ export type PortfolioItem = {
   url: string;
 };
 
-const thumbUrl = (site: string) =>
-  `https://image.thum.io/get/width/800/crop/600/${site}`;
-
 export const portfolioItems: PortfolioItem[] = [
   {
     id: "p1",
     name: "Saga Media",
     category: "Sello Urbano / Música",
-    image: thumbUrl("https://sagamedia.net/"),
+    image: "https://sagamedia.net/favicon.svg",
     url: "https://sagamedia.net/",
   },
   {
     id: "p2",
     name: "Desintegra",
     category: "Desarrollo de Software",
-    image: thumbUrl("https://desintegra.com/"),
+    image: "https://desintegra.com/images/200/18446542/logo-desintegra-6quk0oPAjJzLpVLxUSgOww.png",
     url: "https://desintegra.com/",
   },
   {
     id: "p3",
     name: "Adcon Chile",
     category: "Administración de Condominios",
-    image: thumbUrl("https://adconchile.cl/"),
+    image: "https://adconchile.cl/adcon-chile.jpg",
     url: "https://adconchile.cl/",
   },
   {
     id: "p4",
     name: "KM Eventos",
     category: "Eventos / Producción Audiovisual",
-    image: thumbUrl("https://eventoskm.com/"),
+    image: "https://eventoskm.com/assets/logo.png",
     url: "https://eventoskm.com/",
   },
 ];

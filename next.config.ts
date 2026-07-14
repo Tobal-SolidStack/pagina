@@ -13,10 +13,10 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "image.thum.io",
-      },
+      { protocol: "https", hostname: "sagamedia.net" },
+      { protocol: "https", hostname: "desintegra.com" },
+      { protocol: "https", hostname: "adconchile.cl" },
+      { protocol: "https", hostname: "eventoskm.com" },
     ],
   },
   async headers() {
