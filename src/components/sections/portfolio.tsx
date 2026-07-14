@@ -23,6 +23,7 @@ export function Portfolio() {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`Ver sitio web de ${project.name} (abre en nueva pestaña)`}
                 whileHover={{ y: -6 }}
                 transition={{ type: "spring", stiffness: 280, damping: 22 }}
                 className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm dark:border-white/10 dark:bg-neutral-900"
@@ -32,6 +33,8 @@ export function Portfolio() {
                   <img
                     src={project.image}
                     alt={`Logo de ${project.name}`}
+                    width={180}
+                    height={80}
                     className="max-h-24 max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
                     loading="lazy"
                   />

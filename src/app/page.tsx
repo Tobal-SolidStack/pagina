@@ -1,14 +1,32 @@
+import dynamic from "next/dynamic";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Hero } from "@/components/sections/hero";
-import { Benefits } from "@/components/sections/benefits";
-import { Plans } from "@/components/sections/plans";
-import { Stats } from "@/components/sections/stats";
-import { Process } from "@/components/sections/process";
-import { Portfolio } from "@/components/sections/portfolio";
-import { Faq } from "@/components/sections/faq";
-import { About } from "@/components/sections/about";
-import { Contact } from "@/components/sections/contact";
+
+const Benefits = dynamic(() =>
+  import("@/components/sections/benefits").then((m) => ({ default: m.Benefits }))
+);
+const Plans = dynamic(() =>
+  import("@/components/sections/plans").then((m) => ({ default: m.Plans }))
+);
+const Stats = dynamic(() =>
+  import("@/components/sections/stats").then((m) => ({ default: m.Stats }))
+);
+const Process = dynamic(() =>
+  import("@/components/sections/process").then((m) => ({ default: m.Process }))
+);
+const Portfolio = dynamic(() =>
+  import("@/components/sections/portfolio").then((m) => ({ default: m.Portfolio }))
+);
+const Faq = dynamic(() =>
+  import("@/components/sections/faq").then((m) => ({ default: m.Faq }))
+);
+const About = dynamic(() =>
+  import("@/components/sections/about").then((m) => ({ default: m.About }))
+);
+const Contact = dynamic(() =>
+  import("@/components/sections/contact").then((m) => ({ default: m.Contact }))
+);
 
 export default function Home() {
   return (

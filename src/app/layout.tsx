@@ -260,6 +260,12 @@ export default function RootLayout({
   return (
     <html lang="es-CL" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
+        {/* Preconnect to speed up external resource loading */}
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://sagamedia.net" />
+        <link rel="dns-prefetch" href="https://desintegra.com" />
+        <link rel="dns-prefetch" href="https://adconchile.cl" />
+        <link rel="dns-prefetch" href="https://eventoskm.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
