@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import nodemailer from "nodemailer";
 
 const schema = z.object({
   name: z.string().min(2),
@@ -18,18 +19,28 @@ export async function POST(req: NextRequest) {
 
   const { name, email, company, message } = parsed.data;
 
-  const apiKey = process.env.SMTP2GO_API_KEY;
+  const smtpHost = process.env.SMTP_HOST;
+  const smtpPort = Number(process.env.SMTP_PORT ?? "587");
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
   const fromEmail = process.env.CONTACT_FROM_EMAIL;
   const fromName = process.env.CONTACT_FROM_NAME ?? "SolidStack";
   const toEmail = process.env.CONTACT_TO_EMAIL;
 
-  if (!apiKey || !fromEmail || !toEmail) {
-    console.error("Faltan variables de entorno SMTP2GO.");
+  if (!smtpHost || !smtpUser || !smtpPass || !fromEmail || !toEmail) {
+    console.error("Faltan variables de entorno SMTP.");
     return NextResponse.json(
       { error: "Error de configuración del servidor." },
       { status: 500 }
     );
   }
+
+  const transporter = nodemailer.createTransport({
+    host: smtpHost,
+    port: smtpPort,
+    secure: smtpPort === 465,
+    auth: { user: smtpUser, pass: smtpPass },
+  });
 
   const subject = `Nueva cotización de ${name}${company ? ` — ${company}` : ""}`;
 
@@ -86,24 +97,17 @@ export async function POST(req: NextRequest) {
     .filter((l) => l !== null)
     .join("\n");
 
-  const res = await fetch("https://api.smtp2go.com/v3/email/send", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      api_key: apiKey,
-      to: [`${toEmail}`],
-      sender: `${fromName} <${fromEmail}>`,
-      reply_to: `${name} <${email}>`,
+  try {
+    await transporter.sendMail({
+      from: `"${fromName}" <${fromEmail}>`,
+      to: toEmail,
+      replyTo: `"${name}" <${email}>`,
       subject,
-      html_body: htmlBody,
-      text_body: textBody,
-    }),
-  });
-
-  const data = await res.json();
-
-  if (!res.ok || data?.data?.failures?.length > 0) {
-    console.error("SMTP2GO error:", JSON.stringify(data));
+      html: htmlBody,
+      text: textBody,
+    });
+  } catch (err) {
+    console.error("SMTP error:", err);
     return NextResponse.json(
       { error: "No se pudo enviar el correo. Intenta de nuevo." },
       { status: 502 }
