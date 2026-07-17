@@ -140,7 +140,6 @@ export type Stat = {
 
 export const stats: Stat[] = [
   { value: 48, suffix: " hrs", label: "Tiempo de entrega" },
-  { value: 100, suffix: "+", label: "Clientes satisfechos" },
   { value: 99, suffix: "%", label: "Clientes que nos recomiendan" },
   { value: 100, suffix: "%", label: "Diseño responsive" },
 ];
