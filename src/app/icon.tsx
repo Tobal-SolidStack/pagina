@@ -10,20 +10,22 @@ export default function Icon() {
         style={{
           width: 32,
           height: 32,
+          borderRadius: "8px",
+          background: "linear-gradient(145deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          gap: "3px",
-          padding: "3px",
+          gap: "2.5px",
+          padding: "5px",
         }}
       >
-        {/* Barra superior — más angosta, más transparente */}
-        <div style={{ width: "55%", height: "6px", borderRadius: "3px", background: "rgba(37,99,235,0.50)", display: "flex" }} />
-        {/* Barra media */}
-        <div style={{ width: "75%", height: "7px", borderRadius: "3px", background: "rgba(37,99,235,0.78)", display: "flex" }} />
-        {/* Barra inferior — ancho completo, sólido */}
-        <div style={{ width: "100%", height: "8px", borderRadius: "3px", background: "#2563eb", display: "flex" }} />
+        {/* Piedra superior — más pequeña */}
+        <div style={{ width: "45%", height: "5px", borderRadius: "3px", background: "rgba(255,255,255,0.70)", display: "flex" }} />
+        {/* Piedra media */}
+        <div style={{ width: "70%", height: "6px", borderRadius: "3px", background: "rgba(255,255,255,0.88)", display: "flex" }} />
+        {/* Piedra inferior — más ancha y sólida */}
+        <div style={{ width: "92%", height: "7px", borderRadius: "3px", background: "#ffffff", display: "flex" }} />
       </div>
     ),
     { ...size }
