@@ -48,20 +48,11 @@ export const metadata: Metadata = {
     title: `${siteConfig.name} | Diseño y Creación de Páginas Web Profesionales en Chile`,
     description: siteConfig.description,
     siteName: siteConfig.name,
-    images: [
-      {
-        url: `${siteConfig.url}/og-image.png`,
-        width: 1200,
-        height: 630,
-        alt: `${siteConfig.name} - Creación de páginas web profesionales para negocios en Chile`,
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.name} | Diseño y Creación de Páginas Web Profesionales en Chile`,
     description: siteConfig.description,
-    images: [`${siteConfig.url}/og-image.png`],
   },
   robots: {
     index: true,
@@ -91,8 +82,8 @@ export default function RootLayout({
     name: siteConfig.name,
     description: siteConfig.description,
     url: siteConfig.url,
-    logo: `${siteConfig.url}/og-image.png`,
-    image: `${siteConfig.url}/og-image.png`,
+    logo: `${siteConfig.url}/opengraph-image`,
+    image: `${siteConfig.url}/opengraph-image`,
     telephone: `+${siteConfig.whatsappNumber}`,
     email: siteConfig.email,
     priceRange: "$49.990 - $79.990 CLP + IVA/mes",
