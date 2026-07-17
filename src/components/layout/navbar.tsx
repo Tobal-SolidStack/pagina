@@ -84,7 +84,7 @@ export function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden glass lg:hidden"
+            className="overflow-hidden border-t border-neutral-200 bg-white shadow-lg dark:border-white/10 dark:bg-neutral-950 lg:hidden"
           >
             <div className="flex flex-col gap-1 px-4 pb-6 pt-2 sm:px-6">
               {navLinks.map((link) => (
