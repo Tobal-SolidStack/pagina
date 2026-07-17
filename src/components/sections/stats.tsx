@@ -22,7 +22,7 @@ export function Stats() {
           className="[&_h2]:text-white [&_p]:text-blue-100 [&_span]:text-blue-100"
         />
 
-        <StaggerGroup className="mt-16 grid grid-cols-2 gap-8 lg:grid-cols-4">
+        <StaggerGroup className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-3 sm:max-w-2xl sm:mx-auto">
           {stats.map((stat) => (
             <StaggerItem key={stat.label} effect="zoom">
               <div className="text-center">
