@@ -1,28 +1,28 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Palette, Smartphone, Search, Rocket, Headset, ShieldCheck, type LucideIcon } from "lucide-react";
+import { Clock, RefreshCw, ShieldCheck, TrendingUp, Headset, Zap, type LucideIcon } from "lucide-react";
 import { SectionHeading } from "@/components/section-heading";
 import { StaggerGroup, StaggerItem } from "@/components/motion/reveal";
 import { benefits, type Benefit } from "@/lib/data";
 
 const icons: Record<Benefit["icon"], LucideIcon> = {
-  palette: Palette,
-  smartphone: Smartphone,
-  search: Search,
-  rocket: Rocket,
-  headset: Headset,
+  clock: Clock,
+  refresh: RefreshCw,
   shield: ShieldCheck,
+  "trending-up": TrendingUp,
+  headset: Headset,
+  zap: Zap,
 };
 
 export function Benefits() {
   return (
-    <section id="beneficios" aria-label="Beneficios de nuestro servicio de diseño web" className="bg-neutral-50 py-24 dark:bg-neutral-900/40 sm:py-32">
+    <section id="beneficios" aria-label="Por qué elegir SolidStack" className="bg-neutral-50 py-24 dark:bg-neutral-900/40 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Beneficios"
-          title="Todo lo que tu negocio necesita para destacar online"
-          description="Diseñamos páginas web pensadas para generar confianza y convertir visitantes en clientes."
+          eyebrow="Por qué elegirnos"
+          title="Lo que nos hace diferentes"
+          description="No somos uno más. Estos son los compromisos concretos que nos diferencian de cualquier otro freelancer o agencia."
         />
 
         <StaggerGroup className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

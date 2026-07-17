@@ -26,7 +26,6 @@ export function Hero() {
           </defs>
           <rect width="100%" height="100%" fill="url(#grid)" />
         </svg>
-        {/* Geometric decorations with CSS float animation */}
         <div className="animate-float absolute right-[8%] top-[20%] h-16 w-16 rounded-2xl border border-blue-600/20 bg-blue-600/5" />
         <div className="animate-float-sm absolute left-[6%] bottom-[15%] h-10 w-10 rounded-full border border-sky-500/25 bg-sky-500/5" />
       </div>
@@ -45,17 +44,20 @@ export function Hero() {
             className="animate-fade-up text-4xl font-extrabold tracking-tight text-neutral-900 sm:text-5xl lg:text-6xl dark:text-white"
             style={{ animationDelay: "0.17s" }}
           >
-            Creamos la página web que{" "}
-            <span className="text-gradient">tu negocio necesita</span>
+            Tu página web lista en{" "}
+            <span className="text-gradient">48 horas</span>{" "}
+            — o con todo incluido desde{" "}
+            <span className="text-gradient">$49.990/mes</span>
           </h1>
 
           <p
             className="animate-fade-up mt-6 max-w-xl text-lg text-neutral-600 dark:text-neutral-400"
             style={{ animationDelay: "0.29s" }}
           >
-            Diseño y desarrollo de sitios web modernos, rápidos y profesionales para emprendedores y
-            empresas en Chile, desde solo{" "}
-            <span className="font-semibold text-neutral-900 dark:text-white">$79.990 + IVA</span>.
+            No más páginas que quedan obsoletas. Con SolidStack tu sitio siempre está actualizado, siempre funcionando y con soporte incluido.{" "}
+            <span className="font-semibold text-neutral-900 dark:text-white">
+              Sin contrato largo. Cancelas cuando quieras.
+            </span>
           </p>
 
           <div
@@ -64,7 +66,7 @@ export function Hero() {
           >
             <Button asChild size="lg" className="group">
               <a href="#planes">
-                Ver Planes
+                Ver Planes y Precios
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </a>
             </Button>
@@ -81,18 +83,18 @@ export function Hero() {
             style={{ animationDelay: "0.53s" }}
           >
             <div>
-              <p className="text-2xl font-bold text-neutral-900 dark:text-white">+100</p>
-              <p>Clientes felices</p>
+              <p className="text-2xl font-bold text-neutral-900 dark:text-white">48 hrs</p>
+              <p>Tiempo de entrega</p>
             </div>
             <div className="h-8 w-px bg-neutral-200 dark:bg-white/10" />
             <div>
-              <p className="text-2xl font-bold text-neutral-900 dark:text-white">3 días</p>
-              <p>Entrega promedio</p>
+              <p className="text-2xl font-bold text-neutral-900 dark:text-white">$0</p>
+              <p>Costo de entrada</p>
             </div>
             <div className="h-8 w-px bg-neutral-200 dark:bg-white/10" />
             <div>
               <p className="text-2xl font-bold text-neutral-900 dark:text-white">99%</p>
-              <p>Recomiendan</p>
+              <p>Clientes satisfechos</p>
             </div>
           </div>
         </div>
@@ -104,7 +106,7 @@ export function Hero() {
           <div className="animate-float-img">
             <Image
               src="/hero-mockup.svg"
-              alt="Mockup de una página web moderna diseñada para negocios"
+              alt="Mockup de una página web moderna diseñada para negocios en Chile"
               width={560}
               height={480}
               priority

@@ -1,11 +1,11 @@
 "use client";
 
-import { MessageSquare, Users, PenTool, Globe, TrendingUp, type LucideIcon } from "lucide-react";
+import { MessageSquare, Users, PenTool, Globe, TrendingUp, RefreshCw, type LucideIcon } from "lucide-react";
 import { SectionHeading } from "@/components/section-heading";
 import { Reveal } from "@/components/motion/reveal";
 import { processSteps } from "@/lib/data";
 
-const stepIcons: LucideIcon[] = [MessageSquare, Users, PenTool, Globe, TrendingUp];
+const stepIcons: LucideIcon[] = [MessageSquare, Users, PenTool, Globe, TrendingUp, RefreshCw];
 
 export function Process() {
   return (

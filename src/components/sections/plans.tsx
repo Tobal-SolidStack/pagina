@@ -18,10 +18,15 @@ export function Plans() {
         <SectionHeading
           eyebrow="Planes"
           title="Elige el plan ideal para tu negocio"
-          description="Precios claros y sin sorpresas. Todos los planes incluyen diseño profesional y responsive."
+          description="Un plan de entrada rápida o una suscripción con todo incluido. Sin sorpresas, sin letra chica."
         />
 
-        <StaggerGroup className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-start">
+        {/* Subscription value proposition */}
+        <div className="mx-auto mt-10 max-w-2xl rounded-2xl border border-blue-200 bg-blue-50 px-6 py-4 text-center text-sm text-blue-800 dark:border-blue-900/50 dark:bg-blue-950/40 dark:text-blue-300">
+          <strong>¿Por qué suscripción?</strong> No pagas $120.000 hoy por una página que puede quedar obsoleta. Pagas $49.990/mes y tu sitio siempre está actualizado, siempre funcionando, siempre con soporte. Si no estás conforme, cancelas cuando quieras.
+        </div>
+
+        <StaggerGroup className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-start">
           {plans.map((plan) => (
             <StaggerItem key={plan.id} effect="zoom">
               <motion.div
@@ -34,7 +39,7 @@ export function Plans() {
                     : "border-neutral-200 bg-white shadow-sm dark:border-white/10 dark:bg-neutral-900"
                 )}
               >
-                {plan.featured && (
+                {plan.badge && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                     <Badge variant="solid" className="flex items-center gap-1 shadow-lg">
                       <Sparkles className="h-3.5 w-3.5" />
@@ -50,8 +55,16 @@ export function Plans() {
                   <span className="text-4xl font-extrabold text-neutral-900 dark:text-white">
                     {plan.price}
                   </span>
-                  <span className="text-sm text-neutral-500 dark:text-neutral-400">+ IVA / pago único</span>
+                  <span className="text-sm text-neutral-500 dark:text-neutral-400">
+                    + IVA {plan.billing}
+                  </span>
                 </div>
+
+                {plan.billing === "/mes" && (
+                  <p className="mt-1 text-xs text-blue-600 dark:text-blue-400">
+                    Sin costo de entrada · Cancela cuando quieras
+                  </p>
+                )}
 
                 <ul className="mt-8 flex-1 space-y-3">
                   {plan.features.map((feature) => (
@@ -71,7 +84,7 @@ export function Plans() {
                   className="mt-8 w-full"
                 >
                   <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
-                    Contratar
+                    {plan.cta}
                   </a>
                 </Button>
               </motion.div>

@@ -40,15 +40,9 @@ export function ComparisonTable() {
                 )}
               >
                 <td className="p-5 text-sm text-neutral-700 dark:text-neutral-300">{row.label}</td>
-                <td className="p-5 text-center">
-                  <CellIcon included={row.basico} />
-                </td>
-                <td className="p-5 text-center">
-                  <CellIcon included={row.intermedio} />
-                </td>
-                <td className="p-5 text-center">
-                  <CellIcon included={row.pro} />
-                </td>
+                <td className="p-5 text-center"><CellIcon included={row.lanzamiento} /></td>
+                <td className="p-5 text-center"><CellIcon included={row.negocio} /></td>
+                <td className="p-5 text-center"><CellIcon included={row.pro} /></td>
               </tr>
             ))}
           </tbody>
