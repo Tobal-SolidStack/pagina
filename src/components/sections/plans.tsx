@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { StaggerGroup, StaggerItem } from "@/components/motion/reveal";
 import { ComparisonTable } from "@/components/sections/comparison-table";
+import Link from "next/link";
 import { plans } from "@/lib/data";
-import { whatsappHref } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
 export function Plans() {
@@ -83,9 +83,9 @@ export function Plans() {
                   variant={plan.featured ? "default" : "outline"}
                   className="mt-8 w-full"
                 >
-                  <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+                  <Link href={`/checkout?plan=${plan.id}`}>
                     {plan.cta}
-                  </a>
+                  </Link>
                 </Button>
               </motion.div>
             </StaggerItem>
