@@ -14,9 +14,17 @@ export async function GET(req: NextRequest) {
     const status = await flowGet<FlowPaymentStatus>("payment/getStatus", { token });
 
     if (status.status === 2) {
-      return NextResponse.redirect(`${base}/checkout/success?plan=lanzamiento`);
+      const params = new URLSearchParams({
+        plan: "lanzamiento",
+        order: status.commerceOrder,
+        amount: String(status.amount),
+        email: status.payer,
+        flowOrder: String(status.flowOrder),
+      });
+      return NextResponse.redirect(`${base}/checkout/success?${params}`);
     }
-    return NextResponse.redirect(`${base}/checkout/failure?plan=lanzamiento`);
+    const failParams = new URLSearchParams({ plan: "lanzamiento", order: status.commerceOrder });
+    return NextResponse.redirect(`${base}/checkout/failure?${failParams}`);
   } catch (err) {
     console.error("FLOW return error:", err);
     return NextResponse.redirect(`${base}/checkout/failure`);

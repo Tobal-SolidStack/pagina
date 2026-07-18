@@ -33,10 +33,19 @@ export async function POST(req: NextRequest) {
 
     await sendWelcomeEmail(regStatus.customerId, plan);
 
-    return NextResponse.redirect(`${base}/checkout/success?plan=${plan}`);
+    const amounts: Record<string, string> = { negocio: "49990", pro: "79990" };
+    const params = new URLSearchParams({
+      plan,
+      customerId: regStatus.customerId,
+      amount: amounts[plan] ?? "",
+      cardType: regStatus.creditCardType ?? "",
+      last4: regStatus.last4CardDigits ?? "",
+    });
+    return NextResponse.redirect(`${base}/checkout/success?${params}`);
   } catch (err) {
     console.error("FLOW subscription-return error:", err);
-    return NextResponse.redirect(`${base}/checkout/failure?plan=${plan}`);
+    const failParams = new URLSearchParams({ plan });
+    return NextResponse.redirect(`${base}/checkout/failure?${failParams}`);
   }
 }
 
