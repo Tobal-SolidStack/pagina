@@ -3,13 +3,16 @@ import nodemailer from "nodemailer";
 import { flowGet, flowPost, FlowRegisterStatus, FlowSubscription } from "@/lib/flow";
 import { siteConfig } from "@/lib/site-config";
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   const { searchParams } = req.nextUrl;
-  const token = searchParams.get("token");
   const plan = searchParams.get("plan");
   const flowPlanId = searchParams.get("flowPlanId");
   const customerId = searchParams.get("customerId");
   const base = siteConfig.url;
+
+  // FLOW envía el token en el body (form-urlencoded)
+  const text = await req.text();
+  const token = new URLSearchParams(text).get("token");
 
   if (!token || !plan || !flowPlanId || !customerId) {
     return NextResponse.redirect(`${base}/checkout/failure`);
