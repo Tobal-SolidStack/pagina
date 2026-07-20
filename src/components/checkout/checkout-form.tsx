@@ -205,7 +205,7 @@ export function CheckoutForm({ planId }: Props) {
 
             {isSubscription && (
               <p className="mt-6 rounded-xl bg-blue-50 px-4 py-3 text-xs text-blue-700 dark:bg-blue-950/40 dark:text-blue-300">
-                Sin costo de entrada · Cancela cuando quieras · Primer cobro al registrar la tarjeta
+                Sin costo de entrada · Cancela cuando quieras · Primer cobro al confirmar el pago
               </p>
             )}
           </div>
