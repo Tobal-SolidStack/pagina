@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { flowPost, FlowPaymentResponse, FlowCustomer, FlowRegisterResponse } from "@/lib/flow";
+import { flowPost, FlowPaymentResponse, FlowCustomer, FlowCollectResponse, FlowSubscription } from "@/lib/flow";
 import { siteConfig } from "@/lib/site-config";
 
 const schema = z.object({
@@ -67,16 +67,33 @@ export async function POST(req: NextRequest) {
       externalId,
     });
 
-    const returnUrl =
-      `${baseUrl}/api/checkout/subscription-return` +
-      `?plan=${planId}&flowPlanId=${encodeURIComponent(flowPlanId)}&customerId=${encodeURIComponent(customer.customerId)}`;
-
-    const reg = await flowPost<FlowRegisterResponse>("customer/register", {
+    // Crear suscripción — FLOW gestiona cobros futuros automáticamente
+    await flowPost<FlowSubscription>("subscription/create", {
+      planId: flowPlanId,
       customerId: customer.customerId,
-      url_return: returnUrl,
+      trial_period_days: "0",
     });
 
-    return NextResponse.json({ redirectUrl: `${reg.url}?token=${reg.token}` });
+    // Cobrar primera cuota vía link de pago (no requiere cobro automático)
+    const returnUrl =
+      `${baseUrl}/api/checkout/return` +
+      `?plan=${planId}&customerId=${encodeURIComponent(customer.customerId)}`;
+
+    const collect = await flowPost<FlowCollectResponse>("customer/collect", {
+      customerId: customer.customerId,
+      commerceOrder,
+      subject: PLAN_SUBJECTS[planId],
+      amount: PLAN_AMOUNTS[planId],
+      urlConfirmation: `${baseUrl}/api/checkout/confirm`,
+      urlReturn: returnUrl,
+      optional: JSON.stringify({ nombre, telefono, rut }),
+    });
+
+    if (!collect.url || !collect.token) {
+      throw new Error(`FLOW collect no retornó URL (type=${collect.type})`);
+    }
+
+    return NextResponse.json({ redirectUrl: `${collect.url}?token=${collect.token}` });
   } catch (err) {
     console.error("FLOW checkout/create error:", err);
     return NextResponse.json({ error: "Error al conectar con FLOW. Intenta de nuevo." }, { status: 502 });

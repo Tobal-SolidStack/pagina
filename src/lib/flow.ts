@@ -91,3 +91,12 @@ export type FlowSubscription = {
   customerId: string;
   status: string;
 };
+
+export type FlowCollectResponse = {
+  type: number; // 1=cargo automático, 2=link de pago, 3=email
+  commerceOrder: string;
+  flowOrder?: number;
+  url?: string;   // present when type=2
+  token?: string; // present when type=2
+  status: number; // 0=uncollected, 1=collected
+};

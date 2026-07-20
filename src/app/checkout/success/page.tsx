@@ -55,7 +55,7 @@ export default async function SuccessPage({ searchParams }: Props) {
             </h1>
             <p className="mt-2 text-neutral-500 dark:text-neutral-400">
               {isSubscription
-                ? "Tu tarjeta fue registrada y tu suscripción está activa."
+                ? "Tu primera cuota fue pagada y tu suscripción está activa."
                 : "Tu pago fue procesado exitosamente por FLOW."}
             </p>
           </div>
@@ -103,7 +103,7 @@ export default async function SuccessPage({ searchParams }: Props) {
 
               {isSubscription && (
                 <Row icon={<Calendar className="h-4 w-4 text-neutral-400" />} label="Próximo cobro">
-                  Se cobrará automáticamente cada mes
+                  FLOW te enviará el link de pago mensual a tu correo
                 </Row>
               )}
 
