@@ -14,22 +14,28 @@ export async function POST(req: NextRequest) {
   const text = await req.text();
   const token = new URLSearchParams(text).get("token");
 
+  console.log("[subscription-return] token:", token ? "present" : "missing", "| plan:", plan, "| flowPlanId:", flowPlanId, "| customerId:", customerId);
+
   if (!token || !plan || !flowPlanId || !customerId) {
-    return NextResponse.redirect(`${base}/checkout/failure`);
+    console.error("[subscription-return] Missing required params");
+    return NextResponse.redirect(`${base}/checkout/failure`, { status: 303 });
   }
 
   try {
     const regStatus = await flowGet<FlowRegisterStatus>("customer/getRegisterStatus", { token });
+    console.log("[subscription-return] regStatus:", JSON.stringify(regStatus));
 
     if (regStatus.status !== 1) {
-      return NextResponse.redirect(`${base}/checkout/failure?plan=${plan}`);
+      console.warn("[subscription-return] Card registration failed, status:", regStatus.status);
+      return NextResponse.redirect(`${base}/checkout/failure?plan=${plan}`, { status: 303 });
     }
 
-    await flowPost<FlowSubscription>("subscription/create", {
+    const sub = await flowPost<FlowSubscription>("subscription/create", {
       planId: flowPlanId,
       customerId: regStatus.customerId,
       trialPeriodDays: "0",
     });
+    console.log("[subscription-return] subscription created:", JSON.stringify(sub));
 
     await sendWelcomeEmail(regStatus.customerId, plan);
 
@@ -41,11 +47,11 @@ export async function POST(req: NextRequest) {
       cardType: regStatus.creditCardType ?? "",
       last4: regStatus.last4CardDigits ?? "",
     });
-    return NextResponse.redirect(`${base}/checkout/success?${params}`);
+    return NextResponse.redirect(`${base}/checkout/success?${params}`, { status: 303 });
   } catch (err) {
-    console.error("FLOW subscription-return error:", err);
+    console.error("[subscription-return] Error:", err);
     const failParams = new URLSearchParams({ plan });
-    return NextResponse.redirect(`${base}/checkout/failure?${failParams}`);
+    return NextResponse.redirect(`${base}/checkout/failure?${failParams}`, { status: 303 });
   }
 }
 
