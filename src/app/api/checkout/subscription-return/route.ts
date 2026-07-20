@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     const regStatus = await flowGet<FlowRegisterStatus>("customer/getRegisterStatus", { token });
     console.log("[subscription-return] regStatus:", JSON.stringify(regStatus));
 
-    if (regStatus.status !== 1) {
+    if (String(regStatus.status) !== "1") {
       console.warn("[subscription-return] Card registration failed, status:", regStatus.status);
       return NextResponse.redirect(`${base}/checkout/failure?plan=${plan}`, { status: 303 });
     }
