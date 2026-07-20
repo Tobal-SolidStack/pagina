@@ -140,7 +140,7 @@ export function CheckoutForm({ planId }: Props) {
               ) : isSubscription ? (
                 <>
                   <Lock className="h-4 w-4" />
-                  Registrar tarjeta y activar suscripción
+                  Pagar primera cuota y activar suscripción
                 </>
               ) : (
                 <>
