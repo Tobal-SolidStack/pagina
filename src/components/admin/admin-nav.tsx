@@ -14,17 +14,16 @@ const NAV = [
   { href: "/admin/users", label: "Usuarios", icon: UserCog },
 ];
 
-export function AdminNav() {
-  const pathname = usePathname();
-  const router = useRouter();
-  const [open, setOpen] = useState(false);
-
-  async function handleLogout() {
-    await fetch("/api/admin/logout", { method: "POST" });
-    router.push("/admin/login");
-  }
-
-  const NavLinks = ({ onClose }: { onClose?: () => void }) => (
+function NavLinks({
+  pathname,
+  onLogout,
+  onClose,
+}: {
+  pathname: string;
+  onLogout: () => void;
+  onClose?: () => void;
+}) {
+  return (
     <>
       <nav className="flex-1 space-y-1 p-3">
         {NAV.map(({ href, label, icon: Icon, exact }) => {
@@ -49,7 +48,7 @@ export function AdminNav() {
       </nav>
       <div className="border-t border-white/10 p-3">
         <button
-          onClick={handleLogout}
+          onClick={onLogout}
           className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-neutral-400 transition hover:bg-white/5 hover:text-white"
         >
           <LogOut className="h-4 w-4 shrink-0" />
@@ -58,6 +57,17 @@ export function AdminNav() {
       </div>
     </>
   );
+}
+
+export function AdminNav() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+
+  async function handleLogout() {
+    await fetch("/api/admin/logout", { method: "POST" });
+    router.push("/admin/login");
+  }
 
   return (
     <>
@@ -99,7 +109,7 @@ export function AdminNav() {
                 <X className="h-4 w-4" />
               </button>
             </div>
-            <NavLinks onClose={() => setOpen(false)} />
+            <NavLinks pathname={pathname} onLogout={handleLogout} onClose={() => setOpen(false)} />
           </aside>
         </div>
       )}
@@ -110,7 +120,7 @@ export function AdminNav() {
           <Logo className="h-6 w-auto" />
           <p className="mt-1 text-xs text-neutral-500">Panel de administración</p>
         </div>
-        <NavLinks />
+        <NavLinks pathname={pathname} onLogout={handleLogout} />
       </aside>
     </>
   );
