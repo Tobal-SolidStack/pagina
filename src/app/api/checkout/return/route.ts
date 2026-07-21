@@ -2,12 +2,42 @@ import { NextRequest, NextResponse } from "next/server";
 import { flowGet, FlowPaymentStatus } from "@/lib/flow";
 import { siteConfig } from "@/lib/site-config";
 
+const PLAN_NAMES: Record<string, string> = {
+  lanzamiento: "Lanzamiento",
+  negocio: "Negocio",
+  pro: "Pro",
+};
+
+const PLAN_PRICES: Record<string, string> = {
+  lanzamiento: "$59.990 CLP",
+  negocio: "$49.990 CLP/mes",
+  pro: "$79.990 CLP/mes",
+};
+
 async function sendWhatsAppNotification(status: FlowPaymentStatus, plan: string) {
   const apiKey = process.env.CALLMEBOT_API_KEY;
   if (!apiKey) return;
-  const planName = plan.charAt(0).toUpperCase() + plan.slice(1);
-  const amount = `$${status.amount.toLocaleString("es-CL")} CLP`;
-  const text = `🎉 Nueva compra en SolidStack!\n📦 Plan ${planName}\n💰 ${amount}\n📧 ${status.payer}\n🔖 Orden: ${status.commerceOrder}`;
+
+  let nombre = "—";
+  let telefono = "—";
+  try {
+    const opt = JSON.parse(status.optional ?? "{}");
+    nombre = opt.nombre ?? "—";
+    telefono = opt.telefono ?? "—";
+  } catch {}
+
+  const planName = PLAN_NAMES[plan] ?? plan;
+  const price = PLAN_PRICES[plan] ?? `$${status.amount.toLocaleString("es-CL")} CLP`;
+
+  const text = [
+    `🎉 Nueva compra en SolidStack!`,
+    `📦 Plan ${planName} — ${price}`,
+    `👤 ${nombre}`,
+    `📞 ${telefono}`,
+    `📧 ${status.payer}`,
+    `🔖 Orden: ${status.commerceOrder}`,
+  ].join("\n");
+
   await fetch(
     `https://api.callmebot.com/whatsapp.php?phone=56985193115&text=${encodeURIComponent(text)}&apikey=${apiKey}`
   ).catch((err) => console.error("WhatsApp notification error:", err));
