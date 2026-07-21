@@ -10,9 +10,9 @@ const PLAN_NAMES: Record<string, string> = {
 };
 
 const PLAN_PRICES: Record<string, string> = {
-  lanzamiento: "$59.990 CLP",
-  negocio: "$49.990 CLP/mes",
-  pro: "$79.990 CLP/mes",
+  lanzamiento: "59.990 CLP",
+  negocio: "49.990 CLP/mes",
+  pro: "79.990 CLP/mes",
 };
 
 async function saveClientToDB(

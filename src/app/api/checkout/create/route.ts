@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
         amount: PLAN_AMOUNTS[planId],
         email,
         urlConfirmation: `${baseUrl}/api/checkout/confirm`,
-        urlReturn: `${baseUrl}/api/checkout/return`,
+        urlReturn: `${baseUrl}/api/checkout/return?plan=lanzamiento&nombre=${encodeURIComponent(nombre)}&telefono=${encodeURIComponent(telefono)}&rut=${encodeURIComponent(rut)}`,
         commerceOrder,
         optional: JSON.stringify({ nombre, telefono, rut }),
       });
