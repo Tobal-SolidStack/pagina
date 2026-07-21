@@ -12,6 +12,6 @@ export default async function ClientPage({ params }: { params: Promise<{ id: str
     }),
     getSession(),
   ]);
-  if (!client) notFound();
-  return <ClientDetail client={client as any} sessionName={session?.name ?? "Admin"} />;
+  if (!client) return notFound();
+  return <ClientDetail client={client} sessionName={session?.name ?? "Admin"} />;
 }

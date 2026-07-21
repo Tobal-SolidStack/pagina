@@ -18,7 +18,11 @@ export default function UsersPage() {
     if (res.ok) setUsers(await res.json());
   }
 
-  useEffect(() => { loadUsers(); }, []);
+  useEffect(() => {
+    fetch("/api/admin/users")
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data: User[]) => setUsers(data));
+  }, []);
 
   async function createUser(e: React.FormEvent) {
     e.preventDefault();
