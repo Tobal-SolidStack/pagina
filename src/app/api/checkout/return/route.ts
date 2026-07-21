@@ -64,7 +64,7 @@ async function sendWhatsAppNotification(
   if (!apiKey) return;
 
   const planName = PLAN_NAMES[plan] ?? plan;
-  const price = PLAN_PRICES[plan] ?? `$${status.amount.toLocaleString("es-CL")} CLP`;
+  const price = PLAN_PRICES[plan] ?? `${Number(status.amount).toLocaleString("es-CL")} CLP`;
 
   const text = [
     `Nueva compra en SolidStack!`,
