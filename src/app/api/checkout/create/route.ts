@@ -77,7 +77,11 @@ export async function POST(req: NextRequest) {
     // Cobrar primera cuota vía link de pago (no requiere cobro automático)
     const returnUrl =
       `${baseUrl}/api/checkout/return` +
-      `?plan=${planId}&customerId=${encodeURIComponent(customer.customerId)}`;
+      `?plan=${planId}` +
+      `&customerId=${encodeURIComponent(customer.customerId)}` +
+      `&nombre=${encodeURIComponent(nombre)}` +
+      `&telefono=${encodeURIComponent(telefono)}` +
+      `&rut=${encodeURIComponent(rut)}`;
 
     const collect = await flowPost<FlowCollectResponse>("customer/collect", {
       customerId: customer.customerId,

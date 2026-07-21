@@ -15,21 +15,28 @@ const PLAN_PRICES: Record<string, string> = {
   pro: "$79.990 CLP/mes",
 };
 
-async function saveClientToDB(status: FlowPaymentStatus, plan: string, flowCustomerId: string) {
+async function saveClientToDB(
+  status: FlowPaymentStatus,
+  plan: string,
+  flowCustomerId: string,
+  nombre: string,
+  telefono: string,
+  rut: string,
+) {
   try {
-    let nombre = "";
-    let telefono = "";
-    let rut = "";
-    try {
-      const opt = JSON.parse(status.optional ?? "{}");
-      nombre = opt.nombre ?? "";
-      telefono = opt.telefono ?? "";
-      rut = opt.rut ?? "";
-    } catch {}
+    // Fallback: intentar leer desde optional si los params de URL están vacíos
+    if (!nombre || !telefono) {
+      try {
+        const opt = JSON.parse(status.optional ?? "{}");
+        nombre = nombre || opt.nombre || "";
+        telefono = telefono || opt.telefono || "";
+        rut = rut || opt.rut || "";
+      } catch {}
+    }
 
     await db.client.upsert({
       where: { email: status.payer },
-      update: { flowCustomerId: flowCustomerId || undefined },
+      update: { name: nombre || undefined, phone: telefono || undefined, flowCustomerId: flowCustomerId || undefined },
       create: {
         name: nombre || status.payer,
         email: status.payer,
@@ -47,29 +54,26 @@ async function saveClientToDB(status: FlowPaymentStatus, plan: string, flowCusto
   }
 }
 
-async function sendWhatsAppNotification(status: FlowPaymentStatus, plan: string) {
+async function sendWhatsAppNotification(
+  status: FlowPaymentStatus,
+  plan: string,
+  nombre: string,
+  telefono: string,
+) {
   const apiKey = process.env.CALLMEBOT_API_KEY;
   if (!apiKey) return;
-
-  let nombre = "—";
-  let telefono = "—";
-  try {
-    const opt = JSON.parse(status.optional ?? "{}");
-    nombre = opt.nombre ?? "—";
-    telefono = opt.telefono ?? "—";
-  } catch {}
 
   const planName = PLAN_NAMES[plan] ?? plan;
   const price = PLAN_PRICES[plan] ?? `$${status.amount.toLocaleString("es-CL")} CLP`;
 
   const text = [
-    `🎉 Nueva compra en SolidStack!`,
-    `📦 Plan ${planName} — ${price}`,
-    `👤 ${nombre}`,
-    `📞 ${telefono}`,
-    `📧 ${status.payer}`,
-    `🔖 Orden: ${status.commerceOrder}`,
-  ].join("\n");
+    `Nueva compra en SolidStack!`,
+    `Plan ${planName} - ${price}`,
+    `Cliente: ${nombre || status.payer}`,
+    `Telefono: ${telefono || "-"}`,
+    `Email: ${status.payer}`,
+    `Orden: ${status.commerceOrder}`,
+  ].join(" | ");
 
   await fetch(
     `https://api.callmebot.com/whatsapp.php?phone=56985193115&text=${encodeURIComponent(text)}&apikey=${apiKey}`
@@ -80,6 +84,9 @@ async function handleReturn(req: NextRequest) {
   const { searchParams } = req.nextUrl;
   const plan = searchParams.get("plan") ?? "lanzamiento";
   const customerId = searchParams.get("customerId") ?? "";
+  const nombre = searchParams.get("nombre") ?? "";
+  const telefono = searchParams.get("telefono") ?? "";
+  const rut = searchParams.get("rut") ?? "";
   const base = siteConfig.url;
 
   // FLOW puede enviar el token en query string (GET) o en el body (POST)
@@ -97,8 +104,8 @@ async function handleReturn(req: NextRequest) {
     const status = await flowGet<FlowPaymentStatus>("payment/getStatus", { token });
 
     if (status.status === 2) {
-      await saveClientToDB(status, plan, customerId);
-      await sendWhatsAppNotification(status, plan);
+      await saveClientToDB(status, plan, customerId, nombre, telefono, rut);
+      await sendWhatsAppNotification(status, plan, nombre, telefono);
       const successParams = new URLSearchParams({
         plan,
         order: status.commerceOrder,
