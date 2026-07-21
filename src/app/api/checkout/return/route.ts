@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { flowGet, FlowPaymentStatus } from "@/lib/flow";
 import { siteConfig } from "@/lib/site-config";
+import { db } from "@/lib/db";
 
 const PLAN_NAMES: Record<string, string> = {
   lanzamiento: "Lanzamiento",
@@ -13,6 +14,38 @@ const PLAN_PRICES: Record<string, string> = {
   negocio: "$49.990 CLP/mes",
   pro: "$79.990 CLP/mes",
 };
+
+async function saveClientToDB(status: FlowPaymentStatus, plan: string, flowCustomerId: string) {
+  try {
+    let nombre = "";
+    let telefono = "";
+    let rut = "";
+    try {
+      const opt = JSON.parse(status.optional ?? "{}");
+      nombre = opt.nombre ?? "";
+      telefono = opt.telefono ?? "";
+      rut = opt.rut ?? "";
+    } catch {}
+
+    await db.client.upsert({
+      where: { email: status.payer },
+      update: { flowCustomerId: flowCustomerId || undefined },
+      create: {
+        name: nombre || status.payer,
+        email: status.payer,
+        phone: telefono,
+        rut,
+        plan,
+        amount: status.amount,
+        commerceOrder: status.commerceOrder,
+        flowCustomerId: flowCustomerId || null,
+        project: { create: { status: "pending" } },
+      },
+    });
+  } catch (err) {
+    console.error("saveClientToDB error:", err);
+  }
+}
 
 async function sendWhatsAppNotification(status: FlowPaymentStatus, plan: string) {
   const apiKey = process.env.CALLMEBOT_API_KEY;
@@ -64,6 +97,7 @@ async function handleReturn(req: NextRequest) {
     const status = await flowGet<FlowPaymentStatus>("payment/getStatus", { token });
 
     if (status.status === 2) {
+      await saveClientToDB(status, plan, customerId);
       await sendWhatsAppNotification(status, plan);
       const successParams = new URLSearchParams({
         plan,
