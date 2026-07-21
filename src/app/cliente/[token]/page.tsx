@@ -162,14 +162,14 @@ export default async function ClientPortalPage({ params }: Props) {
                 Tu compra
               </p>
               <dl className="space-y-3 text-sm">
-                {[
-                  ["Plan", PLAN_LABELS[client.plan] ?? client.plan],
-                  ["Monto", `$${client.amount.toLocaleString("es-CL")} CLP`],
-                  client.commerceOrder ? ["Nº de orden", client.commerceOrder] : null,
-                  ["Fecha de compra", new Date(client.createdAt).toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" })],
-                ]
-                  .filter(Boolean)
-                  .map(([k, v]) => (
+                {(
+                  [
+                    ["Plan", PLAN_LABELS[client.plan] ?? client.plan],
+                    ["Monto", `$${client.amount.toLocaleString("es-CL")} CLP`],
+                    ...(client.commerceOrder ? [["Nº de orden", client.commerceOrder]] : []),
+                    ["Fecha de compra", new Date(client.createdAt).toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" })],
+                  ] as [string, string][]
+                ).map(([k, v]) => (
                     <div key={k} className="flex justify-between gap-4">
                       <dt className="text-neutral-500">{k}</dt>
                       <dd className="text-right font-medium text-neutral-900 dark:text-white">{v}</dd>
