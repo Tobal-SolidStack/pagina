@@ -22,7 +22,10 @@ export async function POST(req: NextRequest) {
     const status = await flowGet<FlowPaymentStatus>("payment/getStatus", { token });
 
     if (status.status === 2) {
-      await sendConfirmationEmail(status);
+      await Promise.allSettled([
+        sendConfirmationEmail(status),
+        sendWhatsAppNotification(status),
+      ]);
     }
   } catch (err) {
     console.error("FLOW confirm webhook error:", err);
@@ -30,6 +33,19 @@ export async function POST(req: NextRequest) {
 
   // FLOW requires a 200 response to mark the payment as processed
   return NextResponse.json({ ok: true });
+}
+
+async function sendWhatsAppNotification(status: FlowPaymentStatus) {
+  const apiKey = process.env.CALLMEBOT_API_KEY;
+  if (!apiKey) return;
+
+  const planName = status.subject.replace(" — SolidStack", "");
+  const amount = `$${status.amount.toLocaleString("es-CL")} CLP`;
+  const text = `🎉 Nueva compra en SolidStack!\n📦 ${planName}\n💰 ${amount}\n📧 ${status.payer}\n🔖 Orden: ${status.commerceOrder}`;
+
+  await fetch(
+    `https://api.callmebot.com/whatsapp.php?phone=56985193115&text=${encodeURIComponent(text)}&apikey=${apiKey}`
+  ).catch((err) => console.error("WhatsApp notification error:", err));
 }
 
 async function sendConfirmationEmail(status: FlowPaymentStatus) {
