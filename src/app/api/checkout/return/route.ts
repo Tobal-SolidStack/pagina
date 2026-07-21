@@ -2,6 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 import { flowGet, FlowPaymentStatus } from "@/lib/flow";
 import { siteConfig } from "@/lib/site-config";
 
+async function sendWhatsAppNotification(status: FlowPaymentStatus, plan: string) {
+  const apiKey = process.env.CALLMEBOT_API_KEY;
+  if (!apiKey) return;
+  const planName = plan.charAt(0).toUpperCase() + plan.slice(1);
+  const amount = `$${status.amount.toLocaleString("es-CL")} CLP`;
+  const text = `🎉 Nueva compra en SolidStack!\n📦 Plan ${planName}\n💰 ${amount}\n📧 ${status.payer}\n🔖 Orden: ${status.commerceOrder}`;
+  await fetch(
+    `https://api.callmebot.com/whatsapp.php?phone=56985193115&text=${encodeURIComponent(text)}&apikey=${apiKey}`
+  ).catch((err) => console.error("WhatsApp notification error:", err));
+}
+
 async function handleReturn(req: NextRequest) {
   const { searchParams } = req.nextUrl;
   const plan = searchParams.get("plan") ?? "lanzamiento";
@@ -23,6 +34,7 @@ async function handleReturn(req: NextRequest) {
     const status = await flowGet<FlowPaymentStatus>("payment/getStatus", { token });
 
     if (status.status === 2) {
+      void sendWhatsAppNotification(status, plan);
       const successParams = new URLSearchParams({
         plan,
         order: status.commerceOrder,
