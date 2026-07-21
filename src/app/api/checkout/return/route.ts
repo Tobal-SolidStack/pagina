@@ -67,13 +67,13 @@ async function sendWhatsAppNotification(
   const price = PLAN_PRICES[plan] ?? `${Number(status.amount).toLocaleString("es-CL")} CLP`;
 
   const text = [
-    `Nueva compra en SolidStack!`,
-    `Plan ${planName} - ${price}`,
-    `Cliente: ${nombre || status.payer}`,
-    `Telefono: ${telefono || "-"}`,
-    `Email: ${status.payer}`,
-    `Orden: ${status.commerceOrder}`,
-  ].join(" | ");
+    `🎉 Nueva compra en SolidStack!`,
+    `📦 Plan ${planName} — ${price}`,
+    `👤 ${nombre || status.payer}`,
+    `📞 ${telefono || "—"}`,
+    `📧 ${status.payer}`,
+    `🔖 Orden: ${status.commerceOrder}`,
+  ].join("\n");
 
   await fetch(
     `https://api.callmebot.com/whatsapp.php?phone=56985193115&text=${encodeURIComponent(text)}&apikey=${apiKey}`
