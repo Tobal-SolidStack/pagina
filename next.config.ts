@@ -11,6 +11,7 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
+  serverExternalPackages: ["@prisma/client", "@prisma/adapter-neon", "@neondatabase/serverless", "prisma"],
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "sagamedia.net" },
