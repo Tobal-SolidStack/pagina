@@ -121,20 +121,23 @@ async function handleReturn(req: NextRequest) {
     if (status.status === 2) {
       const accessToken = await saveClientToDB(status, plan, customerId, nombre, telefono, rut);
 
-      await sendWhatsAppNotification(status, plan, nombre, telefono);
+      const price = PLAN_PRICES[plan] ?? `${Number(status.amount).toLocaleString("es-CL")} CLP`;
+      const portalUrl = accessToken ? `${base}/cliente/${accessToken}` : null;
 
-      if (accessToken) {
-        const portalUrl = `${base}/cliente/${accessToken}`;
-        const price = PLAN_PRICES[plan] ?? `${Number(status.amount).toLocaleString("es-CL")} CLP`;
-        sendClientPurchaseConfirmation({
-          to: status.payer,
-          nombre,
-          plan,
-          amountFormatted: price,
-          order: status.commerceOrder,
-          portalUrl,
-        }).catch((err) => console.error("Client email error:", err));
-      }
+      // Await both notifications before redirecting — serverless functions terminate on return
+      await Promise.allSettled([
+        sendWhatsAppNotification(status, plan, nombre, telefono),
+        portalUrl
+          ? sendClientPurchaseConfirmation({
+              to: status.payer,
+              nombre,
+              plan,
+              amountFormatted: price,
+              order: status.commerceOrder,
+              portalUrl,
+            })
+          : Promise.resolve(),
+      ]);
 
       const successParams = new URLSearchParams({
         plan,
