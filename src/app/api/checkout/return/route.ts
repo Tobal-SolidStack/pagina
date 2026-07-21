@@ -64,7 +64,7 @@ async function handleReturn(req: NextRequest) {
     const status = await flowGet<FlowPaymentStatus>("payment/getStatus", { token });
 
     if (status.status === 2) {
-      void sendWhatsAppNotification(status, plan);
+      await sendWhatsAppNotification(status, plan);
       const successParams = new URLSearchParams({
         plan,
         order: status.commerceOrder,
