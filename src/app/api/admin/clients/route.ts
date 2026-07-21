@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -31,6 +32,7 @@ export async function POST(req: NextRequest) {
         rut: rut ?? "",
         plan,
         amount: Number(amount) || 0,
+        accessToken: randomUUID(),
         project: { create: { status: "pending" } },
       },
     });

@@ -1,6 +1,14 @@
+import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { flowGet, FlowPaymentStatus } from "@/lib/flow";
+import { db } from "@/lib/db";
+
+function extractPlan(subject: string): string {
+  if (subject.includes("Negocio")) return "negocio";
+  if (subject.includes("Pro")) return "pro";
+  return "lanzamiento";
+}
 
 export async function POST(req: NextRequest) {
   let token: string | null = null;
@@ -22,33 +30,79 @@ export async function POST(req: NextRequest) {
     const status = await flowGet<FlowPaymentStatus>("payment/getStatus", { token });
 
     if (status.status === 2) {
-      await Promise.allSettled([
-        sendConfirmationEmail(status),
-        sendWhatsAppNotification(status),
-      ]);
+      // Extract any available customer data from the optional field
+      let nombre = "", telefono = "", rut = "";
+      try {
+        const opt = JSON.parse(status.optional ?? "{}");
+        nombre = opt.nombre ?? "";
+        telefono = opt.telefono ?? "";
+        rut = opt.rut ?? "";
+      } catch {}
+
+      const plan = extractPlan(status.subject);
+
+      // Idempotent DB save — ensures client is stored even if browser never redirected
+      await saveClientFromWebhook(status, plan, nombre, telefono, rut);
+
+      await Promise.allSettled([sendAdminEmail(status), sendAdminWhatsApp(status, plan)]);
     }
   } catch (err) {
     console.error("FLOW confirm webhook error:", err);
   }
 
-  // FLOW requires a 200 response to mark the payment as processed
   return NextResponse.json({ ok: true });
 }
 
-async function sendWhatsAppNotification(status: FlowPaymentStatus) {
+async function saveClientFromWebhook(
+  status: FlowPaymentStatus,
+  plan: string,
+  nombre: string,
+  telefono: string,
+  rut: string,
+) {
+  try {
+    const existing = await db.client.findUnique({
+      where: { email: status.payer },
+      select: { accessToken: true },
+    });
+
+    if (existing) {
+      // Client already exists (likely saved by return route) — skip
+      return;
+    }
+
+    await db.client.create({
+      data: {
+        name: nombre || status.payer,
+        email: status.payer,
+        phone: telefono,
+        rut,
+        plan,
+        amount: Number(status.amount),
+        commerceOrder: status.commerceOrder,
+        flowCustomerId: null,
+        accessToken: randomUUID(),
+        project: { create: { status: "pending" } },
+      },
+    });
+  } catch (err) {
+    console.error("saveClientFromWebhook error:", err);
+  }
+}
+
+async function sendAdminWhatsApp(status: FlowPaymentStatus, plan: string) {
   const apiKey = process.env.CALLMEBOT_API_KEY;
   if (!apiKey) return;
 
-  const planName = status.subject.replace(" — SolidStack", "");
-  const amount = `$${status.amount.toLocaleString("es-CL")} CLP`;
-  const text = `🎉 Nueva compra en SolidStack!\n📦 ${planName}\n💰 ${amount}\n📧 ${status.payer}\n🔖 Orden: ${status.commerceOrder}`;
+  const planName = plan.charAt(0).toUpperCase() + plan.slice(1);
+  const text = `🔔 Webhook FLOW confirmado\n📦 Plan ${planName}\n📧 ${status.payer}\n🔖 Orden: ${status.commerceOrder}`;
 
   await fetch(
     `https://api.callmebot.com/whatsapp.php?phone=56985193115&text=${encodeURIComponent(text)}&apikey=${apiKey}`
-  ).catch((err) => console.error("WhatsApp notification error:", err));
+  ).catch((err) => console.error("WhatsApp webhook notification error:", err));
 }
 
-async function sendConfirmationEmail(status: FlowPaymentStatus) {
+async function sendAdminEmail(status: FlowPaymentStatus) {
   const smtpHost = process.env.SMTP_HOST;
   const smtpPort = Number(process.env.SMTP_PORT ?? "587");
   const smtpUser = process.env.SMTP_USER;
@@ -72,7 +126,7 @@ async function sendConfirmationEmail(status: FlowPaymentStatus) {
   await transporter.sendMail({
     from: `"${fromName}" <${fromEmail}>`,
     to: toEmail,
-    subject: `✅ Pago recibido — ${status.subject}`,
+    subject: `✅ Pago confirmado — ${status.subject}`,
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#171717;">
         <div style="background:linear-gradient(135deg,#2563eb,#0ea5e9);padding:32px;border-radius:12px 12px 0 0;">
@@ -91,7 +145,7 @@ async function sendConfirmationEmail(status: FlowPaymentStatus) {
             </tr>
             <tr>
               <td style="padding:12px 0;border-bottom:1px solid #f3f4f6;color:#6b7280;font-size:14px;">Monto</td>
-              <td style="padding:12px 0;border-bottom:1px solid #f3f4f6;font-weight:600;">$${status.amount.toLocaleString("es-CL")} CLP</td>
+              <td style="padding:12px 0;border-bottom:1px solid #f3f4f6;font-weight:600;">$${Number(status.amount).toLocaleString("es-CL")} CLP</td>
             </tr>
             <tr>
               <td style="padding:12px 0;border-bottom:1px solid #f3f4f6;color:#6b7280;font-size:14px;">Cliente</td>

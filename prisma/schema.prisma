@@ -27,6 +27,7 @@ model Client {
   amount         Int
   commerceOrder  String?   @unique
   flowCustomerId String?
+  accessToken    String?   @unique
   createdAt      DateTime  @default(now())
   project        Project?
   messages       Message[]

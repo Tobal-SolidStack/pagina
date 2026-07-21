@@ -1,7 +1,9 @@
+import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { flowGet, FlowPaymentStatus } from "@/lib/flow";
 import { siteConfig } from "@/lib/site-config";
 import { db } from "@/lib/db";
+import { sendClientPurchaseConfirmation } from "@/lib/email";
 
 const PLAN_NAMES: Record<string, string> = {
   lanzamiento: "Lanzamiento",
@@ -22,9 +24,8 @@ async function saveClientToDB(
   nombre: string,
   telefono: string,
   rut: string,
-) {
+): Promise<string | null> {
   try {
-    // Fallback: intentar leer desde optional si los params de URL están vacíos
     if (!nombre || !telefono) {
       try {
         const opt = JSON.parse(status.optional ?? "{}");
@@ -34,9 +35,20 @@ async function saveClientToDB(
       } catch {}
     }
 
+    // Preserve existing token or create a new one
+    const existing = await db.client.findUnique({
+      where: { email: status.payer },
+      select: { accessToken: true },
+    });
+    const accessToken = existing?.accessToken ?? randomUUID();
+
     await db.client.upsert({
       where: { email: status.payer },
-      update: { name: nombre || undefined, phone: telefono || undefined, flowCustomerId: flowCustomerId || undefined },
+      update: {
+        name: nombre || undefined,
+        phone: telefono || undefined,
+        flowCustomerId: flowCustomerId || undefined,
+      },
       create: {
         name: nombre || status.payer,
         email: status.payer,
@@ -46,11 +58,15 @@ async function saveClientToDB(
         amount: Number(status.amount),
         commerceOrder: status.commerceOrder,
         flowCustomerId: flowCustomerId || null,
+        accessToken,
         project: { create: { status: "pending" } },
       },
     });
+
+    return accessToken;
   } catch (err) {
     console.error("saveClientToDB error:", err);
+    return null;
   }
 }
 
@@ -89,7 +105,6 @@ async function handleReturn(req: NextRequest) {
   const rut = searchParams.get("rut") ?? "";
   const base = siteConfig.url;
 
-  // FLOW puede enviar el token en query string (GET) o en el body (POST)
   let token = searchParams.get("token");
   if (!token && req.method === "POST") {
     const text = await req.text();
@@ -104,8 +119,23 @@ async function handleReturn(req: NextRequest) {
     const status = await flowGet<FlowPaymentStatus>("payment/getStatus", { token });
 
     if (status.status === 2) {
-      await saveClientToDB(status, plan, customerId, nombre, telefono, rut);
+      const accessToken = await saveClientToDB(status, plan, customerId, nombre, telefono, rut);
+
       await sendWhatsAppNotification(status, plan, nombre, telefono);
+
+      if (accessToken) {
+        const portalUrl = `${base}/cliente/${accessToken}`;
+        const price = PLAN_PRICES[plan] ?? `${Number(status.amount).toLocaleString("es-CL")} CLP`;
+        sendClientPurchaseConfirmation({
+          to: status.payer,
+          nombre,
+          plan,
+          amountFormatted: price,
+          order: status.commerceOrder,
+          portalUrl,
+        }).catch((err) => console.error("Client email error:", err));
+      }
+
       const successParams = new URLSearchParams({
         plan,
         order: status.commerceOrder,
@@ -116,6 +146,7 @@ async function handleReturn(req: NextRequest) {
       if (customerId) successParams.set("customerId", customerId);
       return NextResponse.redirect(`${base}/checkout/success?${successParams}`, { status: 303 });
     }
+
     const failParams = new URLSearchParams({ plan, order: status.commerceOrder });
     return NextResponse.redirect(`${base}/checkout/failure?${failParams}`, { status: 303 });
   } catch (err) {
