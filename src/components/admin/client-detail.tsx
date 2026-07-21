@@ -71,12 +71,12 @@ export function ClientDetail({ client, sessionName }: Props) {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       <Link href="/admin/clients" className="mb-6 flex items-center gap-2 text-sm text-neutral-400 hover:text-white">
         <ArrowLeft className="h-4 w-4" /> Volver a clientes
       </Link>
 
-      <div className="mb-8 flex items-start justify-between">
+      <div className="mb-6 flex flex-wrap items-start justify-between gap-3 sm:mb-8">
         <div>
           <h1 className="text-2xl font-bold">{client.name}</h1>
           <p className="mt-1 text-sm text-neutral-400">{client.email} · {client.phone}</p>
@@ -86,7 +86,7 @@ export function ClientDetail({ client, sessionName }: Props) {
         </span>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
         {/* Info cliente */}
         <div className="rounded-xl border border-white/10 bg-neutral-900 p-6">
           <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-neutral-400">Datos del cliente</h2>

@@ -10,7 +10,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <div className="flex min-h-screen bg-neutral-950 text-white">
       <AdminNav />
-      <main className="flex-1 overflow-auto">{children}</main>
+      {/* pt-14 compensa el header fijo en móvil; en desktop no hay header (lg:pt-0) */}
+      <main className="flex-1 overflow-auto pt-14 lg:pt-0">{children}</main>
     </div>
   );
 }

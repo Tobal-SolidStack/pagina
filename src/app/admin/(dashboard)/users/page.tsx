@@ -54,10 +54,10 @@ export default function UsersPage() {
   }
 
   return (
-    <div className="p-8">
-      <h1 className="mb-8 text-2xl font-bold">Usuarios del panel</h1>
+    <div className="p-4 sm:p-6 lg:p-8">
+      <h1 className="mb-6 text-xl font-bold sm:mb-8 sm:text-2xl">Usuarios del panel</h1>
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
         {/* Lista usuarios */}
         <div className="rounded-xl border border-white/10 bg-neutral-900 p-6">
           <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-neutral-400">Usuarios activos</h2>

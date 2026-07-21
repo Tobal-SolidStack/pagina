@@ -32,9 +32,9 @@ export default function EmailsPage() {
   }
 
   return (
-    <div className="p-8">
-      <h1 className="mb-2 text-2xl font-bold">Emails masivos</h1>
-      <p className="mb-8 text-sm text-neutral-400">Se enviará a todos los clientes registrados.</p>
+    <div className="p-4 sm:p-6 lg:p-8">
+      <h1 className="mb-2 text-xl font-bold sm:text-2xl">Emails masivos</h1>
+      <p className="mb-6 text-sm text-neutral-400 sm:mb-8">Se enviará a todos los clientes registrados.</p>
 
       <div className="max-w-2xl rounded-xl border border-white/10 bg-neutral-900 p-6">
         <div className="space-y-5">

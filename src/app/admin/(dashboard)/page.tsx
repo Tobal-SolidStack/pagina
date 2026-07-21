@@ -30,46 +30,48 @@ export default async function AdminDashboard() {
   ];
 
   return (
-    <div className="p-8">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold">Bienvenido, {session?.name} 👋</h1>
+    <div className="p-4 sm:p-6 lg:p-8">
+      <div className="mb-6">
+        <h1 className="text-xl font-bold sm:text-2xl">Bienvenido, {session?.name} 👋</h1>
         <p className="mt-1 text-sm text-neutral-400">Resumen general de SolidStack</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-5">
         {stats.map(({ label, value, icon: Icon, color }) => (
-          <div key={label} className="rounded-xl border border-white/10 bg-neutral-900 p-5">
-            <Icon className={`h-5 w-5 ${color}`} />
-            <p className="mt-3 text-2xl font-bold">{value}</p>
+          <div key={label} className="rounded-xl border border-white/10 bg-neutral-900 p-4">
+            <Icon className={`h-4 w-4 sm:h-5 sm:w-5 ${color}`} />
+            <p className="mt-2 text-xl font-bold sm:mt-3 sm:text-2xl">{value}</p>
             <p className="mt-1 text-xs text-neutral-400">{label}</p>
           </div>
         ))}
       </div>
 
-      <div className="mt-8">
-        <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-neutral-400">Últimos clientes</h2>
+      <div className="mt-6 sm:mt-8">
+        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-400 sm:mb-4">Últimos clientes</h2>
         <div className="overflow-hidden rounded-xl border border-white/10 bg-neutral-900">
           {clients.length === 0 ? (
             <p className="p-6 text-sm text-neutral-500">Aún no hay clientes registrados.</p>
           ) : (
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-white/10 text-left text-xs text-neutral-500">
-                  <th className="px-4 py-3">Plan</th>
-                  <th className="px-4 py-3">Fecha</th>
-                  <th className="px-4 py-3">Monto</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[...clients].reverse().slice(0, 5).map((c: { plan: string; createdAt: Date; amount: number }, i: number) => (
-                  <tr key={i} className="border-b border-white/5 last:border-0">
-                    <td className="px-4 py-3 capitalize">{c.plan}</td>
-                    <td className="px-4 py-3 text-neutral-400">{new Date(c.createdAt).toLocaleDateString("es-CL")}</td>
-                    <td className="px-4 py-3">${c.amount.toLocaleString("es-CL")}</td>
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[400px] text-sm">
+                <thead>
+                  <tr className="border-b border-white/10 text-left text-xs text-neutral-500">
+                    <th className="px-4 py-3">Plan</th>
+                    <th className="px-4 py-3">Fecha</th>
+                    <th className="px-4 py-3">Monto</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {[...clients].reverse().slice(0, 5).map((c: { plan: string; createdAt: Date; amount: number }, i: number) => (
+                    <tr key={i} className="border-b border-white/5 last:border-0">
+                      <td className="px-4 py-3 capitalize">{c.plan}</td>
+                      <td className="px-4 py-3 text-neutral-400">{new Date(c.createdAt).toLocaleDateString("es-CL")}</td>
+                      <td className="px-4 py-3">${c.amount.toLocaleString("es-CL")}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>

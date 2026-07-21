@@ -63,7 +63,7 @@ export default function ClientsPage() {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Clientes</h1>
         <button
@@ -150,7 +150,8 @@ export default function ClientsPage() {
         {clients.length === 0 ? (
           <p className="p-6 text-sm text-neutral-500">Aún no hay clientes registrados.</p>
         ) : (
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[600px] text-sm">
             <thead>
               <tr className="border-b border-white/10 text-left text-xs text-neutral-500">
                 <th className="px-4 py-3">Cliente</th>
@@ -190,6 +191,7 @@ export default function ClientsPage() {
               })}
             </tbody>
           </table>
+          </div>
         )}
       </div>
     </div>
