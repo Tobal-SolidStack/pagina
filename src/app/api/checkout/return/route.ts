@@ -43,7 +43,7 @@ async function saveClientToDB(
         phone: telefono,
         rut,
         plan,
-        amount: status.amount,
+        amount: Number(status.amount),
         commerceOrder: status.commerceOrder,
         flowCustomerId: flowCustomerId || null,
         project: { create: { status: "pending" } },
