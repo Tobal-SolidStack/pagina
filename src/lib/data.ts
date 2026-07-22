@@ -286,7 +286,7 @@ export const faqItems: FaqItem[] = [
   },
   {
     question: "¿Qué diferencia hay entre el pago único y la suscripción mensual?",
-    answer: "Con el Plan Lanzamiento pagas una sola vez ($59.990) y la página queda entregada. Con los planes Negocio y Pro pagas una mensualidad que incluye hosting, dominio, correo corporativo y actualizaciones de contenido. No necesitas pagar nada por adelantado para comenzar.",
+    answer: "Con el Plan Lanzamiento pagas $59.990 una sola vez y tu página queda entregada en 48 horas. Con los planes Negocio y Pro pagas una mensualidad que incluye hosting, dominio .cl, correo corporativo y actualizaciones de contenido. El primer cobro se realiza al contratar; luego se renueva automáticamente cada mes.",
   },
   {
     question: "¿Puedo cancelar el plan mensual cuando quiera?",
