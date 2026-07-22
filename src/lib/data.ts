@@ -148,15 +148,39 @@ export type ProcessStep = {
   step: number;
   title: string;
   description: string;
+  timing: string;
+  icon: "credit-card" | "message-circle" | "layout" | "rocket";
 };
 
 export const processSteps: ProcessStep[] = [
-  { step: 1, title: "Nos escribes", description: "Nos cuentas la idea de tu negocio por WhatsApp o el formulario de contacto." },
-  { step: 2, title: "Conversamos sobre tu proyecto", description: "Definimos juntos objetivos, estilo y contenido de tu página web en una llamada o chat rápido." },
-  { step: 3, title: "Diseñamos tu página", description: "Creamos un diseño moderno y a medida, adaptado a tu marca. Tú apruebas antes de publicar." },
-  { step: 4, title: "Publicamos en 48 horas", description: "Tu página queda en línea, funcionando y lista para recibir visitas y clientes." },
-  { step: 5, title: "Comienzas a recibir clientes", description: "Tu negocio ya tiene presencia profesional las 24 horas del día." },
-  { step: 6, title: "Nos quedamos contigo", description: "Con los planes de suscripción seguimos actualizando, optimizando y apoyando tu sitio mes a mes." },
+  {
+    step: 1,
+    title: "Elige tu plan y paga",
+    description: "Selecciona el plan que más te acomoda y completa el pago en línea en minutos con tarjeta o WebPay. Recibes confirmación inmediata por email.",
+    timing: "5 minutos",
+    icon: "credit-card",
+  },
+  {
+    step: 2,
+    title: "Nos cuentas de tu negocio",
+    description: "Te contactamos por WhatsApp el mismo día. Te pedimos logo, colores, texto y fotos. Si no tienes todo, igual comenzamos — te ayudamos.",
+    timing: "Mismo día",
+    icon: "message-circle",
+  },
+  {
+    step: 3,
+    title: "Tu sitio listo en 48 horas",
+    description: "Diseñamos y construimos tu web completa. Te enviamos el link para que la revises. Pedimos los ajustes que necesites, sin costo adicional.",
+    timing: "48 horas",
+    icon: "layout",
+  },
+  {
+    step: 4,
+    title: "Publicamos y nos quedamos",
+    description: "Tu sitio va en línea con dominio, SSL y hosting. Y no te dejamos solo: soporte, actualizaciones y seguimiento incluidos en tu plan.",
+    timing: "Día 3",
+    icon: "rocket",
+  },
 ];
 
 export type PortfolioItem = {
