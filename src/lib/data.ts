@@ -294,7 +294,7 @@ export const faqItems: FaqItem[] = [
   },
   {
     question: "¿Cómo se realiza el pago?",
-    answer: "Para el Plan Lanzamiento trabajamos con un 50% de anticipo al comenzar y el 50% restante contra la entrega. Los planes de suscripción se cobran mensualmente por transferencia bancaria.",
+    answer: "El pago es 100% en línea a través de FLOW, la plataforma de pagos más usada en Chile. Aceptamos tarjetas de crédito, débito y WebPay. El Plan Lanzamiento se paga en un solo cobro al contratar. Los planes Negocio y Pro se cobran mensualmente de forma automática con tu tarjeta registrada.",
   },
   {
     question: "¿Los planes incluyen dominio y hosting?",
