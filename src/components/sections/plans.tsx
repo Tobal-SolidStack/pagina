@@ -10,8 +10,13 @@ import { ComparisonTable } from "@/components/sections/comparison-table";
 import Link from "next/link";
 import { plans } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import { formatPriceCLP } from "@/lib/settings";
 
-export function Plans() {
+type Props = {
+  priceOverrides?: Record<string, number>;
+};
+
+export function Plans({ priceOverrides = {} }: Props) {
   return (
     <section id="planes" aria-label="Planes y precios de diseño web" className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -53,7 +58,7 @@ export function Plans() {
 
                 <div className="mt-6 flex items-baseline gap-1">
                   <span className="text-4xl font-extrabold text-neutral-900 dark:text-white">
-                    {plan.price}
+                    {priceOverrides[plan.id] ? formatPriceCLP(priceOverrides[plan.id]) : plan.price}
                   </span>
                   <span className="text-sm text-neutral-500 dark:text-neutral-400">
                     + IVA {plan.billing}
