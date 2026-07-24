@@ -1,13 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/icons/logo";
-import { InstagramIcon, FacebookIcon, LinkedinIcon } from "@/components/icons/social-icons";
 import { navLinks, siteConfig } from "@/lib/site-config";
-
-const socialLinks = [
-  { icon: InstagramIcon, href: siteConfig.social.instagram, label: "Instagram" },
-  { icon: FacebookIcon, href: siteConfig.social.facebook, label: "Facebook" },
-  { icon: LinkedinIcon, href: siteConfig.social.linkedin, label: "LinkedIn" },
-];
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -25,23 +18,6 @@ export function Footer() {
               Creamos páginas web modernas, rápidas y profesionales para negocios y emprendedores
               en Chile.
             </p>
-            <div className="mt-6 flex items-center gap-3">
-              {socialLinks.map((social) => {
-                const Icon = social.icon;
-                return (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.label}
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 text-neutral-600 transition-colors hover:border-blue-600 hover:text-blue-600 dark:border-white/10 dark:text-neutral-300"
-                  >
-                    <Icon className="h-4 w-4" />
-                  </a>
-                );
-              })}
-            </div>
           </div>
 
           <div>
