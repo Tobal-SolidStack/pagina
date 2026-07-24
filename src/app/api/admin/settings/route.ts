@@ -4,22 +4,22 @@ import { getSession } from "@/lib/auth";
 
 const SETTING_KEYS = ["price_lanzamiento", "price_negocio", "price_pro"] as const;
 
+const DEFAULTS: Record<string, string> = {
+  price_lanzamiento: "59990",
+  price_negocio: "49990",
+  price_pro: "79990",
+};
+
 export async function GET() {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
-  const rows = await db.setting.findMany({ where: { key: { in: [...SETTING_KEYS] } } });
-  const prices: Record<string, string> = {};
-  for (const row of rows) prices[row.key] = row.value;
-
-  // Fallback defaults if not yet in DB
-  const defaults: Record<string, string> = {
-    price_lanzamiento: "59990",
-    price_negocio: "49990",
-    price_pro: "79990",
-  };
-  for (const key of SETTING_KEYS) {
-    if (!prices[key]) prices[key] = defaults[key];
+  const prices = { ...DEFAULTS };
+  try {
+    const rows = await db.setting.findMany({ where: { key: { in: [...SETTING_KEYS] } } });
+    for (const row of rows) prices[row.key] = row.value;
+  } catch {
+    // Setting table may not exist yet (pending migration) — use defaults
   }
 
   const flowUrl = process.env.FLOW_API_URL ?? "";

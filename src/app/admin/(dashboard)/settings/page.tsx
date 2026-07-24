@@ -47,7 +47,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 export default function SettingsPage() {
   const [config, setConfig] = useState<Config | null>(null);
-  const [prices, setPrices] = useState({ lanzamiento: "", negocio: "", pro: "" });
+  const [prices, setPrices] = useState({ lanzamiento: "59990", negocio: "49990", pro: "79990" });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState("");
