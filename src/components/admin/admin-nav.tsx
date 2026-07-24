@@ -3,15 +3,16 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, Users, Mail, LogOut, UserCog, Menu, X } from "lucide-react";
+import { LayoutDashboard, Users, Mail, LogOut, UserCog, Menu, X, Settings } from "lucide-react";
 import { Logo } from "@/components/icons/logo";
 import { cn } from "@/lib/utils";
 
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/admin/clients", label: "Clientes", icon: Users },
-  { href: "/admin/emails", label: "Emails masivos", icon: Mail },
+  { href: "/admin/emails", label: "Emails", icon: Mail },
   { href: "/admin/users", label: "Usuarios", icon: UserCog },
+  { href: "/admin/settings", label: "Ajustes", icon: Settings },
 ];
 
 function NavLinks({

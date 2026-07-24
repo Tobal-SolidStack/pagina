@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { flowPost, FlowPaymentResponse, FlowCustomer, FlowCollectResponse, FlowSubscription } from "@/lib/flow";
 import { siteConfig } from "@/lib/site-config";
+import { db } from "@/lib/db";
 
 const schema = z.object({
   planId: z.enum(["lanzamiento", "negocio", "pro"]),
@@ -11,11 +12,27 @@ const schema = z.object({
   rut: z.string().min(7),
 });
 
-const PLAN_AMOUNTS: Record<string, string> = {
+const PLAN_AMOUNTS_DEFAULT: Record<string, string> = {
   lanzamiento: "59990",
   negocio: "49990",
   pro: "79990",
 };
+
+async function getPlanAmounts(): Promise<Record<string, string>> {
+  try {
+    const rows = await db.setting.findMany({
+      where: { key: { in: ["price_lanzamiento", "price_negocio", "price_pro"] } },
+    });
+    const result = { ...PLAN_AMOUNTS_DEFAULT };
+    for (const row of rows) {
+      const plan = row.key.replace("price_", "");
+      result[plan] = row.value;
+    }
+    return result;
+  } catch {
+    return PLAN_AMOUNTS_DEFAULT;
+  }
+}
 
 const PLAN_SUBJECTS: Record<string, string> = {
   lanzamiento: "Plan Lanzamiento — SolidStack",
@@ -33,6 +50,7 @@ export async function POST(req: NextRequest) {
   const { planId, nombre, email, telefono, rut } = parsed.data;
   const baseUrl = siteConfig.url;
   const commerceOrder = `SOL-${planId.toUpperCase()}-${Date.now()}`;
+  const PLAN_AMOUNTS = await getPlanAmounts();
 
   try {
     if (planId === "lanzamiento") {
