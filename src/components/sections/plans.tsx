@@ -10,7 +10,10 @@ import { ComparisonTable } from "@/components/sections/comparison-table";
 import Link from "next/link";
 import { plans } from "@/lib/data";
 import { cn } from "@/lib/utils";
-import { formatPriceCLP } from "@/lib/settings";
+
+function formatPriceCLP(amount: number): string {
+  return `$${new Intl.NumberFormat("es-CL").format(amount)}`;
+}
 
 type Props = {
   priceOverrides?: Record<string, number>;

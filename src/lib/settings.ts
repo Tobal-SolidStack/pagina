@@ -23,6 +23,3 @@ export async function getPlanPrices(): Promise<Record<string, number>> {
   }
 }
 
-export function formatPriceCLP(amount: number): string {
-  return `$${new Intl.NumberFormat("es-CL").format(amount)}`;
-}
