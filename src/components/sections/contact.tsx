@@ -5,7 +5,6 @@ import { SectionHeading } from "@/components/section-heading";
 import { Reveal } from "@/components/motion/reveal";
 import { ContactForm } from "@/components/sections/contact-form";
 import { WhatsappIcon } from "@/components/icons/whatsapp-icon";
-import { InstagramIcon, FacebookIcon, LinkedinIcon } from "@/components/icons/social-icons";
 import { siteConfig, whatsappHref } from "@/lib/site-config";
 
 const infoItems = [
@@ -31,12 +30,6 @@ const infoItems = [
     label: "Ubicación",
     value: siteConfig.location,
   },
-];
-
-const socialLinks = [
-  { icon: InstagramIcon, href: siteConfig.social.instagram, label: "Instagram" },
-  { icon: FacebookIcon, href: siteConfig.social.facebook, label: "Facebook" },
-  { icon: LinkedinIcon, href: siteConfig.social.linkedin, label: "LinkedIn" },
 ];
 
 export function Contact() {
@@ -99,23 +92,6 @@ export function Contact() {
                 </ul>
               </div>
 
-              <div className="mt-10 flex items-center gap-3">
-                {socialLinks.map((social) => {
-                  const Icon = social.icon;
-                  return (
-                    <a
-                      key={social.label}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={social.label}
-                      className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 transition-colors hover:bg-white/25"
-                    >
-                      <Icon className="h-4.5 w-4.5" />
-                    </a>
-                  );
-                })}
-              </div>
             </div>
           </Reveal>
         </div>
