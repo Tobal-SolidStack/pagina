@@ -4,6 +4,8 @@ import { Footer } from "@/components/layout/footer";
 import { Hero } from "@/components/sections/hero";
 import { getPlanPrices } from "@/lib/settings";
 
+export const dynamic = "force-dynamic";
+
 const Benefits = dynamic(() =>
   import("@/components/sections/benefits").then((m) => ({ default: m.Benefits }))
 );

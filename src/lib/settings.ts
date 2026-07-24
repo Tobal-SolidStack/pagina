@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from "next/cache";
 import { db } from "@/lib/db";
 
 const PRICE_DEFAULTS: Record<string, number> = {
@@ -7,6 +8,7 @@ const PRICE_DEFAULTS: Record<string, number> = {
 };
 
 export async function getPlanPrices(): Promise<Record<string, number>> {
+  noStore();
   try {
     const rows = await db.setting.findMany({
       where: { key: { in: ["price_lanzamiento", "price_negocio", "price_pro"] } },
